@@ -2,6 +2,7 @@ package com.peterfam.valifaysdk.domain
 
 import androidx.lifecycle.LiveData
 import com.peterfam.valifaysdk.data.User
+import kotlinx.coroutines.flow.Flow
 
 interface UsersRepoImpl {
 
@@ -9,6 +10,6 @@ interface UsersRepoImpl {
 
     suspend fun deleteUser(user: User)
 
-    suspend fun getUsers(): LiveData<List<User>>
+    fun getUsers(): Flow<List<User>>
 
 }
