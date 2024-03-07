@@ -6,7 +6,7 @@ plugins {
 }
 
 android {
-    namespace = "com.peterfam.valifaysdk"
+    namespace = "com.peterfam.valifysdk"
     compileSdk = 34
 
     defaultConfig {
