@@ -1,11 +1,12 @@
 package com.peterfam.valifaysdk.presentation.viewmodel
 
-import com.peterfam.valifaysdk.presentation.viewmodel.RegistrationEvent
-import com.peterfam.valifaysdk.presentation.viewmodel.RegistrationState
+import com.peterfam.valifaysdk.domain.UsersRepo
 import com.peterfam.valifaysdk.util.BaseViewModel
+import dagger.hilt.android.lifecycle.HiltViewModel
+import javax.inject.Inject
 
-class RegistrationViewModel: BaseViewModel<RegistrationEvent, RegistrationState>() {
-
+@HiltViewModel
+class RegistrationViewModel @Inject constructor(private val userRepo: UsersRepo): BaseViewModel<RegistrationEvent, RegistrationState>() {
 
 
     override fun initialState(): RegistrationState {
