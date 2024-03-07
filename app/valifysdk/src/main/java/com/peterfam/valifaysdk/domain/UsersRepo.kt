@@ -1,10 +1,9 @@
 package com.peterfam.valifaysdk.domain
 
-import androidx.lifecycle.LiveData
 import com.peterfam.valifaysdk.data.User
 import kotlinx.coroutines.flow.Flow
 
-interface UsersRepoImpl {
+interface UsersRepo {
 
     suspend fun insertUser(user: User)
 
