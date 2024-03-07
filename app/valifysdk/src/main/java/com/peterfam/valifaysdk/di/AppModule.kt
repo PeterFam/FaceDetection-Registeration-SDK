@@ -5,6 +5,8 @@ import androidx.room.Room
 import androidx.room.RoomDatabase
 import com.peterfam.valifaysdk.data.UsersDao
 import com.peterfam.valifaysdk.data.UsersDatabase
+import com.peterfam.valifaysdk.domain.UserRepoImpl
+import com.peterfam.valifaysdk.domain.UsersRepo
 import com.peterfam.valifaysdk.util.Utils
 import dagger.Module
 import dagger.Provides
@@ -30,5 +32,11 @@ object AppModule {
     @Singleton
     @Provides
     fun provideDao(database: UsersDatabase): UsersDao = database.usersDao()
+
+    @Singleton
+    @Provides
+    fun provideUserRepository(usersDao: UsersDao): UsersRepo{
+        return UserRepoImpl(usersDao)
+    }
 
 }
