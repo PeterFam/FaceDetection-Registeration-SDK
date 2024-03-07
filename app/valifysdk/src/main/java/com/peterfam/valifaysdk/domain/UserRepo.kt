@@ -13,6 +13,6 @@ class UserRepo @Inject constructor(private val usersDao: UsersDao): UsersRepoImp
         usersDao.deleteUser(user)
     }
 
-    override suspend fun getUsers() = usersDao.getUsers()
+    override fun getUsers() = usersDao.getUsers()
 
 }

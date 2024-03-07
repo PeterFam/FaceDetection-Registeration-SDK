@@ -6,6 +6,7 @@ import androidx.room.Delete
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
+import kotlinx.coroutines.flow.Flow
 
 @Dao
 interface UsersDao {
@@ -17,6 +18,6 @@ interface UsersDao {
     suspend fun deleteUser(user: User)
 
     @Query("SELECT * FROM user")
-    suspend fun getUsers(): LiveData<List<User>>
+    fun getUsers(): Flow<List<User>>
 
 }
