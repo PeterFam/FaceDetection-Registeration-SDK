@@ -21,4 +21,4 @@ dependencyResolutionManagement {
 
 rootProject.name = "ValifyRegistration"
 include(":app")
- 
+include(":app:valifaysdk")
