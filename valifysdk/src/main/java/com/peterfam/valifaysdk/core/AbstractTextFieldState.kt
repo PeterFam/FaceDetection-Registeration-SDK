@@ -65,27 +65,6 @@ abstract class AbstractTextFieldState(
         }
     }
 
-    fun updateText(newText: String): AbstractTextFieldState {
-        return apply {
-            text = newText
-        }
-    }
-
-    /**
-     * A function that checks whether the text field is empty.
-     *
-     * @return A boolean indicating whether the text field is empty.
-     */
-    fun isEmpty() = text.isEmpty()
-
-    /**
-     * A function that enables the display of errors if the text field has been focused at least once.
-     */
-    fun enableShowErrors() {
-        if (isFocusedDirty)
-            displayErrors = true
-    }
-
     /**
      * A function that returns the error message if there is an error, otherwise it returns null.
      *
