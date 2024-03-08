@@ -1,6 +1,8 @@
 <resources>
     <string name="title_activity_main">RegistrationActivity</string>
     <string name="error_unknown">Unknown error</string>
+    <string name="error_required">Required</string>
+
     <string name="registration">Registration</string>
 
     <string name="username">Username</string>

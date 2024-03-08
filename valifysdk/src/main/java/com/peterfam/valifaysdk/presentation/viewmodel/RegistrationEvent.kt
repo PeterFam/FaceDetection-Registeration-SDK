@@ -5,6 +5,6 @@ import com.peterfam.valifaysdk.util.UiEvent
 
 sealed class RegistrationEvent : UiEvent(){
 
-    data class SavingData(val user: User): RegistrationEvent()
+    data object SavingData : RegistrationEvent()
 
 }
