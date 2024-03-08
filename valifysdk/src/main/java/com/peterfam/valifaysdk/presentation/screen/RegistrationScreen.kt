@@ -29,6 +29,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.navigation.NavController
 import com.peterfam.valifaysdk.core.StandardButton
 import com.peterfam.valifaysdk.core.StandardTextFiled
 import com.peterfam.valifaysdk.core.StandardWarningDialog
@@ -41,7 +42,7 @@ import com.peterfam.valifysdk.R
 import kotlinx.coroutines.flow.collectLatest
 
 @Composable
-fun RegistrationRoute(){
+fun RegistrationRoute(navController: NavController){
 
     val viewModel: RegistrationViewModel = hiltViewModel()
     val showWarningDialog = remember { mutableStateOf(Pair("", false)) }

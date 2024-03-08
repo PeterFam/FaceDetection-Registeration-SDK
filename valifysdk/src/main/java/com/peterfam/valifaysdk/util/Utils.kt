@@ -6,7 +6,6 @@ import java.util.regex.Pattern
 
 object Utils {
 
-    var DBName = "ValifyUsersDB"
 
     fun isMobileNumberValid(phone: String): Boolean {
         return phone.length >= 9

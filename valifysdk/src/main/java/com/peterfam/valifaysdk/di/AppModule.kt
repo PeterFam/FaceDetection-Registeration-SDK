@@ -6,10 +6,9 @@ import com.peterfam.valifaysdk.data.UsersDao
 import com.peterfam.valifaysdk.data.UsersDatabase
 import com.peterfam.valifaysdk.domain.UserRepoImpl
 import com.peterfam.valifaysdk.domain.UsersRepo
-import com.peterfam.valifaysdk.util.Utils
+import com.peterfam.valifaysdk.util.Constants
 import dagger.Module
 import dagger.Provides
-import dagger.hilt.EntryPoint
 import dagger.hilt.InstallIn
 import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
@@ -25,7 +24,7 @@ object AppModule {
         return Room.databaseBuilder(
             context,
             UsersDatabase::class.java,
-            Utils.DBName
+            Constants.DBName
         ).build()
     }
 
