@@ -22,6 +22,8 @@ import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.peterfam.valifaysdk.presentation.screen.ui.theme.DarkGreen
+import com.peterfam.valifaysdk.presentation.screen.ui.theme.Green
 
 @Composable
 fun StandardButton(
@@ -29,10 +31,10 @@ fun StandardButton(
     modifier: Modifier = Modifier,
     enabled: Boolean = true,
     colors: ButtonColors = ButtonDefaults.elevatedButtonColors(
-        containerColor = Color.Green,
-        contentColor = Color.Green,
-        disabledContainerColor = Color.White,
-        disabledContentColor = Color.LightGray,
+        containerColor = Green,
+        contentColor = Green,
+        disabledContainerColor = DarkGreen,
+        disabledContentColor = DarkGreen,
     ),
     shape: Shape = RoundedCornerShape(12.dp),
     minHeight: Dp = 40.dp,

@@ -9,4 +9,10 @@
     <string name="password">Password</string>
     <string name="email">Email</string>
     <string name="phone_number">Phone Num.</string>
+    <string name="invalid_mobile">Invalid Mobile Number</string>
+    <string name="invalid_email">Invalid email address</string>
+    <string name="invalid_password">Invalid Password</string>
+
+    <string name="attention">Attention!</string>
+    <string name="ok">OK</string>
 </resources>

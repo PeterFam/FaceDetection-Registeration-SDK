@@ -10,14 +10,16 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.foundation.text.BasicTextField
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.focus.onFocusChanged
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
@@ -29,16 +31,43 @@ import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.peterfam.valifaysdk.core.StandardButton
 import com.peterfam.valifaysdk.core.StandardTextFiled
-import com.peterfam.valifaysdk.data.User
+import com.peterfam.valifaysdk.core.StandardWarningDialog
 import com.peterfam.valifaysdk.presentation.screen.ui.PasswordTextField
 import com.peterfam.valifaysdk.presentation.screen.ui.theme.Cyan
 import com.peterfam.valifaysdk.presentation.viewmodel.RegistrationEvent
+import com.peterfam.valifaysdk.presentation.viewmodel.RegistrationUiEffect
 import com.peterfam.valifaysdk.presentation.viewmodel.RegistrationViewModel
 import com.peterfam.valifysdk.R
+import kotlinx.coroutines.flow.collectLatest
 
 @Composable
-fun RegistrationScreen(){
+fun RegistrationRoute(){
+
     val viewModel: RegistrationViewModel = hiltViewModel()
+    val showWarningDialog = remember { mutableStateOf(Pair("", false)) }
+    val context = LocalContext.current
+    LaunchedEffect(key1 = true) {
+        viewModel.effectFlow.collectLatest { effect ->
+            when(effect){
+                is RegistrationUiEffect.ShowValidationMsg -> {
+                    showWarningDialog.value = Pair(effect.msg.asString(context), true)
+                }
+            }
+
+        }
+    }
+    if(showWarningDialog.value.second){
+        StandardWarningDialog(msg = showWarningDialog.value.first) {
+            showWarningDialog.value = Pair("", it)
+        }
+    }
+    RegistrationScreen(viewModel = viewModel)
+    
+}
+
+@Composable
+fun RegistrationScreen(viewModel: RegistrationViewModel){
+
     LazyColumn(modifier = Modifier
         .fillMaxSize()
         .background(color = Cyan)) {
@@ -114,6 +143,7 @@ fun RegistrationScreen(){
                 StandardButton(
                     text = stringResource(id = R.string.registration),
                     modifier = Modifier.fillMaxWidth(),
+                    enabled = viewModel.viewState.enableRegisterBtn,
                     onClick = {
                         viewModel.onEvent(RegistrationEvent.SavingData)
                     }
