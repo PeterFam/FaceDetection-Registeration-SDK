@@ -1,7 +1,7 @@
 plugins {
     alias(libs.plugins.androidLibrary)
-    alias(libs.plugins.jetbrainsKotlinAndroid)
     alias(libs.plugins.hiltAndroid)
+    alias(libs.plugins.jetbrainsKotlinAndroid)
     alias(libs.plugins.ksp)
 }
 
@@ -28,24 +28,27 @@ android {
             )
         }
     }
-    compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_1_8
-        targetCompatibility = JavaVersion.VERSION_1_8
-    }
     buildFeatures {
+        buildConfig = true
         compose = true
     }
     composeOptions {
         kotlinCompilerExtensionVersion = "1.5.10"
     }
+    kotlin {
+        jvmToolchain(17)
+    }
     kotlinOptions {
-        jvmTarget = "1.8"
+        freeCompilerArgs = listOf(
+            "-opt-in=androidx.compose.material3.ExperimentalMaterial3Api"
+        )
     }
     packaging {
         resources {
             excludes += "/META-INF/{AL2.0,LGPL2.1}"
         }
     }
+
 }
 
 dependencies {

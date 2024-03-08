@@ -1,6 +1,8 @@
 plugins {
     alias(libs.plugins.androidApplication)
+    alias(libs.plugins.hiltAndroid)
     alias(libs.plugins.jetbrainsKotlinAndroid)
+    alias(libs.plugins.ksp)
 }
 
 android {
@@ -29,18 +31,16 @@ android {
             )
         }
     }
-    compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_1_8
-        targetCompatibility = JavaVersion.VERSION_1_8
-    }
-    kotlinOptions {
-        jvmTarget = "1.8"
-    }
     buildFeatures {
+        buildConfig = true
         compose = true
     }
     composeOptions {
         kotlinCompilerExtensionVersion = "1.5.10"
+    }
+
+    kotlin {
+        jvmToolchain(17)
     }
     packaging {
         resources {
@@ -66,6 +66,10 @@ dependencies {
     androidTestImplementation(libs.androidx.ui.test.junit4)
     debugImplementation(libs.androidx.ui.tooling)
     debugImplementation(libs.androidx.ui.test.manifest)
+
+    //Hilt Android
+    implementation(libs.hilt.android)
+    ksp(libs.hilt.compiler)
 
     implementation(project(":valifysdk"))
 
