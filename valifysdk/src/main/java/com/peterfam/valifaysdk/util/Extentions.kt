@@ -1,15 +1,12 @@
 package com.peterfam.valifaysdk.util
 
 import android.content.Context
-import androidx.camera.lifecycle.ProcessCameraProvider
-import androidx.core.content.ContextCompat
-import kotlin.coroutines.resume
-import kotlin.coroutines.suspendCoroutine
+import android.content.ContextWrapper
+import androidx.activity.ComponentActivity
+import androidx.appcompat.app.AppCompatActivity
 
-suspend fun Context.getCameraProvider(): ProcessCameraProvider = suspendCoroutine { continuation ->
-    ProcessCameraProvider.getInstance(this).also { cameraProvider ->
-        cameraProvider.addListener({
-            continuation.resume(cameraProvider.get())
-        }, ContextCompat.getMainExecutor(this))
-    }
+fun Context.findActivity(): ComponentActivity? = when (this) {
+    is AppCompatActivity -> this
+    is ContextWrapper -> baseContext.findActivity()
+    else -> null
 }

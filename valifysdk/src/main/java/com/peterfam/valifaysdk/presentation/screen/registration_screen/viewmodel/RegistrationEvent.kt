@@ -6,4 +6,5 @@ sealed class RegistrationEvent : UiEvent(){
 
     data object ValidateRegistrationData : RegistrationEvent()
 
+    data object NavigateToUsersList : RegistrationEvent()
 }

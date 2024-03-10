@@ -92,8 +92,10 @@ fun PhotoPickerRoute(navController: NavController, userModel: UserModel){
         }
     }
     if(showSuccessDialog.value){
-        StandardSuccessDialog {
+        StandardSuccessDialog(setShowDialog = {
             showSuccessDialog.value = it
+        }){
+           // context.findActivity()?.finish()
         }
     }
     if(showPermissionDialog.value){
@@ -184,16 +186,9 @@ private fun buildSmileDetector(context: Context, viewModel: PhotoPicViewModel,
                     "${"valify" + "_" + task.taskName() + "_" + System.currentTimeMillis()}.jpg"
                 )
             ) {
-               // imageFiles.add(it.absolutePath)
                 if (isLastTask) {
                     //show success dialog
                     viewModel.onEvent(PhotoPicEvent.SaveDataToDatabase(it.absolutePath))
-//                    Toast.makeText(
-//                        context,
-//                        "Congratulationssss",
-//                        Toast.LENGTH_LONG
-//                    ).show()
-//                    Log.d("successss", it.absolutePath)
                 }
             }
         }

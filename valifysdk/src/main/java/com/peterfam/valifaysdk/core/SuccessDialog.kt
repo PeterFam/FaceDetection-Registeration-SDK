@@ -33,7 +33,7 @@ import com.peterfam.valifysdk.R
 @Composable
 fun StandardSuccessDialog(modifier: Modifier = Modifier,
                           msg : String = stringResource(id = R.string.account_created_successfully),
-                          setShowDialog: (Boolean) -> Unit){
+                          setShowDialog: (Boolean) -> Unit, onSuccess: () -> Unit){
     Dialog(
         onDismissRequest = { setShowDialog(false) },
         properties = DialogProperties(
@@ -101,6 +101,7 @@ fun StandardSuccessDialog(modifier: Modifier = Modifier,
                             colors = ButtonDefaults.buttonColors(containerColor = Color.Blue),
                             text = stringResource(id = R.string.ok)
                         ) {
+                            onSuccess.invoke()
                             setShowDialog(false)
                         }
                     }

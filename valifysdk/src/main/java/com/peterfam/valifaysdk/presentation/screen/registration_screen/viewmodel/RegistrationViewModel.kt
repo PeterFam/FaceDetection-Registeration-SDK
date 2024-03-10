@@ -17,6 +17,8 @@ sealed class RegistrationUiEffect : UiEffect() {
     data object HideKeyboard : RegistrationUiEffect()
     data class ShowValidationMsg(val msg: UiText.StringResource): RegistrationUiEffect()
     data class NavigateToPhotoPickScreen(val userModel: UserModel): RegistrationUiEffect()
+
+    data object NavigateToUsersList: RegistrationUiEffect()
 }
 @HiltViewModel
 class RegistrationViewModel @Inject constructor(private val userRepo: UsersRepo): BaseViewModel<RegistrationEvent, RegistrationState>() {
@@ -38,6 +40,11 @@ class RegistrationViewModel @Inject constructor(private val userRepo: UsersRepo)
                     password = viewState.passwordFieldState.text
                     )
                 )
+            }
+            is RegistrationEvent.NavigateToUsersList -> {
+                viewModelScope.launch {
+                    setEffect { RegistrationUiEffect.NavigateToUsersList }
+                }
             }
         }
     }

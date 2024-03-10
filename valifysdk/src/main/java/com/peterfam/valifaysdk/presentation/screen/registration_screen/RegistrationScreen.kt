@@ -11,6 +11,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardOptions
+import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -39,6 +40,7 @@ import com.peterfam.valifaysdk.presentation.screen.registration_screen.viewmodel
 import com.peterfam.valifaysdk.presentation.screen.registration_screen.viewmodel.RegistrationUiEffect
 import com.peterfam.valifaysdk.presentation.screen.registration_screen.viewmodel.RegistrationViewModel
 import com.peterfam.valifaysdk.presentation.screen.ui.theme.Cyan
+import com.peterfam.valifaysdk.presentation.screen.ui.theme.DarkGreen
 import com.peterfam.valifysdk.R
 import kotlinx.coroutines.flow.collectLatest
 
@@ -61,6 +63,9 @@ fun RegistrationRoute(navController: NavController){
                 is RegistrationUiEffect.NavigateToPhotoPickScreen -> {
                     val userData = Gson().toJson(effect.userModel)
                     navController.navigate(Screen.ProfilePicScreen.route.replace("{user}", userData))
+                }
+                is RegistrationUiEffect.NavigateToUsersList -> {
+                    navController.navigate(Screen.UsersScreen.route)
                 }
             }
 
@@ -153,6 +158,20 @@ fun RegistrationScreen(viewModel: RegistrationViewModel){
             }
 
         }
-
+        item {
+            StandardButton(
+                text = stringResource(id = R.string.user_list),
+                modifier = Modifier.fillMaxWidth().padding(horizontal = 30.dp),
+                colors = ButtonDefaults.elevatedButtonColors(
+                    containerColor = Color.Black,
+                    contentColor = Color.Black,
+                    disabledContainerColor = DarkGreen,
+                    disabledContentColor = DarkGreen,
+                ),
+                onClick = {
+                    viewModel.onEvent(RegistrationEvent.NavigateToUsersList)
+                }
+            )
+        }
     }
 }

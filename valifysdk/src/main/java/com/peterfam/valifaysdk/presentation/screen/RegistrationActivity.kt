@@ -1,7 +1,6 @@
 package com.peterfam.valifaysdk.presentation.screen
 
 import android.os.Bundle
-import android.util.Log
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.layout.fillMaxSize
@@ -17,6 +16,7 @@ import com.peterfam.valifaysdk.data.UserModel
 import com.peterfam.valifaysdk.presentation.screen.profile_pic_screen.PhotoPickerRoute
 import com.peterfam.valifaysdk.presentation.screen.registration_screen.RegistrationRoute
 import com.peterfam.valifaysdk.presentation.screen.ui.theme.ValifyRegistrationTheme
+import com.peterfam.valifaysdk.presentation.screen.user_list.screen.UserListRoute
 import dagger.hilt.android.AndroidEntryPoint
 
 
@@ -40,8 +40,10 @@ class RegistrationActivity : ComponentActivity() {
                         }
                         composable(route = Screen.ProfilePicScreen.route){
                             val user = Gson().fromJson(it.arguments?.getString("user"), UserModel::class.java)
-                            Log.d("userrr", user.toString())
                             PhotoPickerRoute(navController = navController, userModel = user)
+                        }
+                        composable(route = Screen.UsersScreen.route){
+                            UserListRoute()
                         }
                     }
                 }

@@ -23,4 +23,6 @@
     <string name="please_smile">Please smile to take a photo of you</string>
     <string name="success">Success</string>
     <string name="account_created_successfully">Account Created Successfully!</string>
+
+    <string name="user_list">Users List</string>
 </resources>

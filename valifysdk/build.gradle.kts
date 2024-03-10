@@ -94,6 +94,9 @@ dependencies {
     implementation(libs.google.accompanist)
     implementation(libs.google.gson)
 
+    implementation(libs.coil)
+    implementation(libs.coil.kt)
+
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
