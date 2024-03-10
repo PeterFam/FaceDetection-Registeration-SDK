@@ -1,4 +1,4 @@
-package com.peterfam.valifaysdk.presentation.screen
+package com.peterfam.valifaysdk.presentation.screen.registration_screen
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
@@ -20,6 +20,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
@@ -30,14 +31,14 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
+import com.peterfam.valifaysdk.core.Screen
 import com.peterfam.valifaysdk.core.StandardButton
 import com.peterfam.valifaysdk.core.StandardTextFiled
 import com.peterfam.valifaysdk.core.StandardWarningDialog
-import com.peterfam.valifaysdk.presentation.screen.ui.PasswordTextField
+import com.peterfam.valifaysdk.presentation.screen.registration_screen.viewmodel.RegistrationEvent
+import com.peterfam.valifaysdk.presentation.screen.registration_screen.viewmodel.RegistrationUiEffect
+import com.peterfam.valifaysdk.presentation.screen.registration_screen.viewmodel.RegistrationViewModel
 import com.peterfam.valifaysdk.presentation.screen.ui.theme.Cyan
-import com.peterfam.valifaysdk.presentation.viewmodel.RegistrationEvent
-import com.peterfam.valifaysdk.presentation.viewmodel.RegistrationUiEffect
-import com.peterfam.valifaysdk.presentation.viewmodel.RegistrationViewModel
 import com.peterfam.valifysdk.R
 import kotlinx.coroutines.flow.collectLatest
 
@@ -47,11 +48,18 @@ fun RegistrationRoute(navController: NavController){
     val viewModel: RegistrationViewModel = hiltViewModel()
     val showWarningDialog = remember { mutableStateOf(Pair("", false)) }
     val context = LocalContext.current
+    val keyboardController = LocalSoftwareKeyboardController.current
     LaunchedEffect(key1 = true) {
         viewModel.effectFlow.collectLatest { effect ->
             when(effect){
+                is RegistrationUiEffect.HideKeyboard -> {
+                    keyboardController?.hide()
+                }
                 is RegistrationUiEffect.ShowValidationMsg -> {
                     showWarningDialog.value = Pair(effect.msg.asString(context), true)
+                }
+                is RegistrationUiEffect.NavigateToPhotoPickScreen -> {
+                    navController.navigate(Screen.ProfilePicScreen.route)
                 }
             }
 
@@ -144,7 +152,7 @@ fun RegistrationScreen(viewModel: RegistrationViewModel){
                 StandardButton(
                     text = stringResource(id = R.string.registration),
                     modifier = Modifier.fillMaxWidth(),
-                    enabled = viewModel.viewState.enableRegisterBtn,
+                    //enabled = viewModel.viewState.enableRegisterBtn,
                     onClick = {
                         viewModel.onEvent(RegistrationEvent.SavingData)
                     }

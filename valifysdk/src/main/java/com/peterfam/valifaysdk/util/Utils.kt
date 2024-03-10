@@ -1,12 +1,22 @@
 package com.peterfam.valifaysdk.util
 
+import android.content.Context
+import android.content.Intent
+import android.net.Uri
+import android.provider.Settings
 import android.util.Patterns
 import java.util.regex.Matcher
 import java.util.regex.Pattern
 
 object Utils {
 
-
+    fun openAppSettings(context: Context) {
+        val intent = Intent(
+            Settings.ACTION_APPLICATION_DETAILS_SETTINGS,
+            Uri.fromParts("package", context.packageName, null)
+        )
+        context.startActivity(intent)
+    }
     fun isMobileNumberValid(phone: String): Boolean {
         return phone.length >= 9
     }

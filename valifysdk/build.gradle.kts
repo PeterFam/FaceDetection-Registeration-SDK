@@ -91,6 +91,8 @@ dependencies {
     implementation(libs.camera.camera2)
     implementation(libs.camera.view)
 
+    implementation(libs.google.accompanist)
+
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)

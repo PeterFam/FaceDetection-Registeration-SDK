@@ -15,4 +15,8 @@
 
     <string name="attention">Attention!</string>
     <string name="ok">OK</string>
+    <string name="permission_needed">Permission Needed</string>
+    <string name="allow">Allow Permission</string>
+    <string name="permission_needed_msg">This permission needed in order to continue.. please go to settings and allow it</string>
+    <string name="allow_camera_permission">Allow Camera Permission</string>
 </resources>

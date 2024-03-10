@@ -1,6 +1,5 @@
-package com.peterfam.valifaysdk.presentation.viewmodel
+package com.peterfam.valifaysdk.presentation.screen.registration_screen.viewmodel
 
-import android.util.Log
 import androidx.lifecycle.viewModelScope
 import com.peterfam.valifaysdk.core.UiText
 import com.peterfam.valifaysdk.data.User
@@ -17,6 +16,7 @@ import javax.inject.Inject
 sealed class RegistrationUiEffect : UiEffect() {
     data object HideKeyboard : RegistrationUiEffect()
     data class ShowValidationMsg(val msg: UiText.StringResource): RegistrationUiEffect()
+    data object NavigateToPhotoPickScreen: RegistrationUiEffect()
 }
 @HiltViewModel
 class RegistrationViewModel @Inject constructor(private val userRepo: UsersRepo): BaseViewModel<RegistrationEvent, RegistrationState>() {
@@ -30,17 +30,16 @@ class RegistrationViewModel @Inject constructor(private val userRepo: UsersRepo)
         when(event){
             is RegistrationEvent.SavingData -> {
                 viewModelScope.launch {
-                    setEffect { RegistrationUiEffect.HideKeyboard }
+                    setEffect { RegistrationUiEffect.NavigateToPhotoPickScreen }
                 }
-
-                savingUserData(
-                    User(
-                    userName = viewState.userNameFieldState.text,
-                    email = viewState.emailFieldState.text,
-                    mob = viewState.mobNumFieldState.text.toInt(),
-                    password = viewState.passwordFieldState.text
-                    )
-                )
+//                savingUserData(
+//                    User(
+//                    userName = viewState.userNameFieldState.text,
+//                    email = viewState.emailFieldState.text,
+//                    mob = viewState.mobNumFieldState.text.toInt(),
+//                    password = viewState.passwordFieldState.text
+//                    )
+//                )
             }
         }
     }
@@ -63,16 +62,14 @@ class RegistrationViewModel @Inject constructor(private val userRepo: UsersRepo)
 
     private fun savingUserData(user: User){
         viewModelScope.launch(Dispatchers.IO) {
-            if(isFormValid(viewState)){
-                setState { copy(isLoading = false) }
-                userRepo.insertUser(user)
-                clearData()
-                setState { copy(isLoading = false) }
-
-                userRepo.getUsers().collect{
-                    Log.d("databaseee",it.joinToString())
-                }
-            }
+            setEffect { RegistrationUiEffect.HideKeyboard }
+//            if(isFormValid(viewState)){
+//                setState { copy(isLoading = false) }
+//                userRepo.insertUser(user)
+//                clearData()
+//                setState { copy(isLoading = false) }
+//            }
+            setEffect { RegistrationUiEffect.NavigateToPhotoPickScreen }
         }
     }
     private fun clearData(){

@@ -11,6 +11,8 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.peterfam.valifaysdk.core.Screen
+import com.peterfam.valifaysdk.presentation.screen.profile_pic_screen.PhotoPickerRoute
+import com.peterfam.valifaysdk.presentation.screen.registration_screen.RegistrationRoute
 import com.peterfam.valifaysdk.presentation.screen.ui.theme.ValifyRegistrationTheme
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -32,6 +34,9 @@ class RegistrationActivity : ComponentActivity() {
                     NavHost(navController = navController, startDestination =  Screen.RegisterScreen.route){
                         composable(route = Screen.RegisterScreen.route){
                             RegistrationRoute(navController = navController)
+                        }
+                        composable(route = Screen.ProfilePicScreen.route){
+                            PhotoPickerRoute(navController = navController)
                         }
 
                     }
