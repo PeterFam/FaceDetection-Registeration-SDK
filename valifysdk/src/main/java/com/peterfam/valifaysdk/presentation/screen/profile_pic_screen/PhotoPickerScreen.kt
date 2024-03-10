@@ -2,26 +2,25 @@ package com.peterfam.valifaysdk.presentation.screen.profile_pic_screen
 
 import android.Manifest
 import android.annotation.SuppressLint
-import android.net.Uri
+import android.content.Context
 import android.util.Log
+import android.widget.Toast
 import androidx.camera.core.CameraSelector
 import androidx.camera.core.ImageCapture
 import androidx.camera.core.ImageCaptureException
-import androidx.camera.core.Preview
+import androidx.camera.view.CameraController
+import androidx.camera.view.LifecycleCameraController
 import androidx.camera.view.PreviewView
 import androidx.compose.foundation.background
-import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.foundation.shape.CircleShape
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.sharp.Done
 import androidx.compose.material3.Button
-import androidx.compose.material3.Icon
-import androidx.compose.material3.IconButton
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -35,24 +34,31 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalLifecycleOwner
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.viewinterop.AndroidView
+import androidx.core.content.ContextCompat
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import com.google.accompanist.permissions.ExperimentalPermissionsApi
 import com.google.accompanist.permissions.isGranted
 import com.google.accompanist.permissions.rememberPermissionState
 import com.peterfam.valifaysdk.core.PermissionDeniedContent
 import com.peterfam.valifaysdk.core.UiText
-import com.peterfam.valifaysdk.util.getCameraProvider
+import com.peterfam.valifaysdk.face_detection.DetectionTask
+import com.peterfam.valifaysdk.face_detection.FaceAnalyzer
+import com.peterfam.valifaysdk.face_detection.FaceDetector
+import com.peterfam.valifaysdk.face_detection.SmileDetectionTask
+import com.peterfam.valifaysdk.presentation.screen.profile_pic_screen.viewmodel.PhotoPicViewModel
 import com.peterfam.valifysdk.R
 import java.io.File
-import java.util.concurrent.Executor
 
 @SuppressLint("PermissionLaunchedDuringComposition")
 @OptIn(ExperimentalPermissionsApi::class)
 @Composable
 fun PhotoPickerRoute(navController: NavController){
+    val viewModel: PhotoPicViewModel = hiltViewModel()
     val context = LocalContext.current
     val showPermissionDialog = remember { mutableStateOf( false) }
     val cameraPermissionState = rememberPermissionState(Manifest.permission.CAMERA){isGranted ->
@@ -81,77 +87,134 @@ fun PhotoPickerRoute(navController: NavController){
                 Text(stringResource(id = R.string.allow_camera_permission))
             }
         }else{
-            ProfilePickScreen()
+            ProfilePickScreen(context, viewModel)
         }
     }
 }
 
 @Composable
-fun ProfilePickScreen(){
-    Text("Camera Started", style = TextStyle(fontSize = 30.sp))
+fun ProfilePickScreen(context: Context, viewModel: PhotoPicViewModel) {
+    val cameraController = remember { LifecycleCameraController(context) }
+    val lifecycleOwner = LocalLifecycleOwner.current
+    val previewView: PreviewView = remember { PreviewView(context) }
+    cameraController.bindToLifecycle(lifecycleOwner)
+    cameraController.cameraSelector = CameraSelector.DEFAULT_FRONT_CAMERA
+    previewView.controller = cameraController
+    cameraController.setImageAnalysisAnalyzer(ContextCompat.getMainExecutor(context), FaceAnalyzer(
+        buildSmileDetector(context, viewModel, cameraController)
+    ))
+
+    Box(modifier = Modifier
+        .fillMaxSize()
+        .background(color = Color.Black), contentAlignment = Alignment.Center) {
+
+        Column(modifier = Modifier.wrapContentSize()) {
+            Text(text = viewModel.viewState.commentText, style = TextStyle(
+                color = Color.White, fontSize = 16.sp,
+            ), textAlign = TextAlign.Center)
+
+            Spacer(modifier = Modifier.height(20.dp))
+
+            Box(modifier = Modifier
+                .wrapContentSize()
+                .aspectRatio(1f)
+                .background(Color.Unspecified, shape = CircleShape)){
+                AndroidView(factory = { previewView }, modifier = Modifier
+                    .fillMaxSize()
+                    .aspectRatio(1f)
+                    .background(Color.Unspecified, shape = CircleShape))
+            }
+        }
+    }
 }
 
-@Composable
-fun CameraView(
-    outputDirectory: File,
-    executor: Executor,
-    onImageCaptured: (Uri) -> Unit,
-    onError: (ImageCaptureException) -> Unit
-) {
-    // 1
-    val lensFacing = CameraSelector.LENS_FACING_FRONT
-    val context = LocalContext.current
-    val lifecycleOwner = LocalLifecycleOwner.current
+private fun buildSmileDetector(context: Context, viewModel: PhotoPicViewModel,
+                               cameraController: CameraController): FaceDetector {
+    val faceDetector = FaceDetector(
+        SmileDetectionTask()
+    )
+    val listener = object : FaceDetector.Listener {
+        @SuppressLint("SetTextI18n")
+        override fun onTaskStarted(task: DetectionTask) {
+            viewModel.viewState.commentText = task.taskDescription()
+        }
 
-    val preview = Preview.Builder().build()
-    val previewView = remember { PreviewView(context) }
-    val imageCapture: ImageCapture = remember { ImageCapture.Builder().build() }
-    val cameraSelector = CameraSelector.Builder()
-        .requireLensFacing(lensFacing)
-        .build()
-
-    // 2
-    LaunchedEffect(lensFacing) {
-        val cameraProvider = context.getCameraProvider()
-        cameraProvider.unbindAll()
-        cameraProvider.bindToLifecycle(
-            lifecycleOwner,
-            cameraSelector,
-            preview,
-            imageCapture
-        )
-
-        preview.setSurfaceProvider(previewView.surfaceProvider)
-    }
-
-    // 3
-    Box(contentAlignment = Alignment.BottomCenter, modifier = Modifier.fillMaxSize()) {
-        AndroidView({ previewView }, modifier = Modifier.fillMaxSize())
-
-        IconButton(
-            modifier = Modifier.padding(bottom = 20.dp),
-            onClick = {
-                Log.i("kilo", "ON CLICK")
-//                takePhoto(
-//                    filenameFormat = "yyyy-MM-dd-HH-mm-ss-SSS",
-//                    imageCapture = imageCapture,
-//                    outputDirectory = outputDirectory,
-//                    executor = executor,
-//                    onImageCaptured = onImageCaptured,
-//                    onError = onError
-//                )
-            },
-            content = {
-                Icon(
-                    imageVector = Icons.Sharp.Done,
-                    contentDescription = "Take picture",
-                    tint = Color.White,
-                    modifier = Modifier
-                        .size(100.dp)
-                        .padding(1.dp)
-                        .border(1.dp, Color.White, CircleShape)
+        override fun onTaskCompleted(task: DetectionTask, isLastTask: Boolean) {
+            takePhoto(
+                cameraController,
+                context,
+                File(
+                    context.cacheDir,
+                    "${"valify" + "_" + task.taskName() + "_" + System.currentTimeMillis()}.jpg"
                 )
+            ) {
+               // imageFiles.add(it.absolutePath)
+                if (isLastTask) {
+                    //show success dialog
+                    Toast.makeText(
+                        context,
+                        "Congratulationssss",
+                        Toast.LENGTH_LONG
+                    ).show()
+                    Log.d("successss", it.absolutePath)
+                }
             }
-        )
+        }
+
+        override fun onTaskFailed(task: DetectionTask, code: Int) {
+            when (code) {
+                FaceDetector.ERROR_MULTI_FACES -> {
+                    Toast.makeText(context,
+                        "Please make sure there is only one face on the screen.",
+                        Toast.LENGTH_LONG
+                    ).show()
+                }
+
+                FaceDetector.ERROR_NO_FACE -> {
+                    Toast.makeText(
+                        context,
+                        "Please make sure there is a face on the screen.",
+                        Toast.LENGTH_LONG
+                    ).show()
+                }
+
+                FaceDetector.ERROR_OUT_OF_DETECTION_RECT -> {
+                    Toast.makeText(
+                        context,
+                        "Please make sure there is a face in the Rectangle.",
+                        Toast.LENGTH_LONG
+                    ).show()
+                }
+
+                else -> {
+                    Toast.makeText(
+                        context,
+                        "${task.taskName()} Failed.",
+                        Toast.LENGTH_LONG
+                    ).show()
+                }
+            }
+        }
     }
+
+    return faceDetector.also { it.setListener(listener) }
+}
+
+private fun takePhoto(cameraController: CameraController,
+                      context: Context,
+                      file: File,
+                      onSaved: (File) -> Unit) {
+    cameraController.takePicture(
+        ImageCapture.OutputFileOptions.Builder(file).build(),
+        ContextCompat.getMainExecutor(context),
+        object : ImageCapture.OnImageSavedCallback {
+            override fun onError(e: ImageCaptureException) {
+                e.printStackTrace()
+            }
+
+            override fun onImageSaved(output: ImageCapture.OutputFileResults) {
+                onSaved(file)
+            }
+        }
+    )
 }
