@@ -92,6 +92,7 @@ dependencies {
     implementation(libs.camera.view)
 
     implementation(libs.google.accompanist)
+    implementation(libs.google.gson)
 
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)

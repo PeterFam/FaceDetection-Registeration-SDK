@@ -10,7 +10,6 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -31,6 +30,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
+import com.google.gson.Gson
 import com.peterfam.valifaysdk.core.Screen
 import com.peterfam.valifaysdk.core.StandardButton
 import com.peterfam.valifaysdk.core.StandardTextFiled
@@ -59,7 +59,8 @@ fun RegistrationRoute(navController: NavController){
                     showWarningDialog.value = Pair(effect.msg.asString(context), true)
                 }
                 is RegistrationUiEffect.NavigateToPhotoPickScreen -> {
-                    navController.navigate(Screen.ProfilePicScreen.route)
+                    val userData = Gson().toJson(effect.userModel)
+                    navController.navigate(Screen.ProfilePicScreen.route.replace("{user}", userData))
                 }
             }
 
@@ -87,7 +88,7 @@ fun RegistrationScreen(viewModel: RegistrationViewModel){
                 .padding(top = 30.dp),
                 text = stringResource(id = R.string.registration),
                 textAlign = TextAlign.Center,
-                style = TextStyle(fontSize = 30.sp, fontWeight = FontWeight.Bold)
+                style = TextStyle(fontSize = 30.sp, fontWeight = FontWeight.Bold, color= Color.Black)
                 )
         }
         item {
@@ -136,14 +137,6 @@ fun RegistrationScreen(viewModel: RegistrationViewModel){
                     state = viewModel.viewState.passwordFieldState,
                     imeAction = ImeAction.Done,
                     label = stringResource(id = R.string.password),
-                    keyboardActions = KeyboardActions(
-                        onDone = {
-//                            keyboardController?.hide()
-//                            if (enableLoginButton) {
-//                                onEvent(RegisterEvent.Register)
-//                            }
-                        },
-                    ),
                     hint = "********",
                 )
 
@@ -152,9 +145,9 @@ fun RegistrationScreen(viewModel: RegistrationViewModel){
                 StandardButton(
                     text = stringResource(id = R.string.registration),
                     modifier = Modifier.fillMaxWidth(),
-                    //enabled = viewModel.viewState.enableRegisterBtn,
+                    enabled = viewModel.viewState.enableRegisterBtn,
                     onClick = {
-                        viewModel.onEvent(RegistrationEvent.SavingData)
+                        viewModel.onEvent(RegistrationEvent.ValidateRegistrationData)
                     }
                 )
             }
