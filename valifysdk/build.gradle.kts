@@ -3,6 +3,8 @@ plugins {
     alias(libs.plugins.hiltAndroid)
     alias(libs.plugins.jetbrainsKotlinAndroid)
     alias(libs.plugins.ksp)
+    `maven-publish`
+
 }
 
 android {
@@ -102,3 +104,10 @@ dependencies {
     androidTestImplementation(libs.androidx.espresso.core)
 
 }
+//afterEvaluate {
+//    publishing{
+//        publications{
+//
+//        }
+//    }
+//}
