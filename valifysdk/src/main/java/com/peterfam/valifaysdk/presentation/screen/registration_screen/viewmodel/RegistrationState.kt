@@ -1,4 +1,4 @@
-package com.peterfam.valifaysdk.presentation.viewmodel
+package com.peterfam.valifaysdk.presentation.screen.registration_screen.viewmodel
 
 import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue

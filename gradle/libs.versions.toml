@@ -16,6 +16,13 @@ hiltCompiler = "2.50"
 kspVersion = "1.9.22-1.0.17"
 hiltCompose = "1.2.0"
 
+cameraMLKit = "1.4.0-alpha04"
+googleMLKitFaceDetection = "17.1.0"
+cameraxVersion = "1.3.2"
+googleAccompanist = "0.34.0"
+googleGson = "2.10.1"
+coilVersion = "2.5.0"
+
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
 junit = { group = "junit", name = "junit", version.ref = "junit" }
@@ -42,6 +49,19 @@ room-testing = {group = "androidx.room", name = "room-testing", version.ref = "r
 hilt-android = {group = "com.google.dagger", name = "hilt-android", version.ref = "hiltAndroid"}
 hilt-compiler = {group = "com.google.dagger", name = "hilt-android-compiler", version.ref = "hiltCompiler"}
 hilt-compose = {group = "androidx.hilt", name = "hilt-navigation-compose", version.ref = "hiltCompose"}
+
+camera-mlkit = {group = "androidx.camera", name = "camera-mlkit-vision", version.ref = "cameraMLKit"}
+google-mlkit-face-detection = {group = "com.google.android.gms", name = "play-services-mlkit-face-detection", version.ref = "googleMLKitFaceDetection"}
+
+camera-core = {group = "androidx.camera", name = "camera-core", version.ref = "cameraxVersion"}
+camera-camera2 = {group = "androidx.camera", name = "camera-camera2", version.ref = "cameraxVersion"}
+camera-lifecycle = {group = "androidx.camera", name = "camera-lifecycle", version.ref = "cameraxVersion"}
+camera-view = {group = "androidx.camera", name = "camera-view", version.ref = "cameraxVersion"}
+google-accompanist = {group = "com.google.accompanist", name = "accompanist-permissions", version.ref = "googleAccompanist"}
+google-gson = {group = "com.google.code.gson", name ="gson", version.ref = "googleGson"}
+coil = {group = "io.coil-kt", name ="coil", version.ref = "coilVersion"}
+coil-kt = {group = "io.coil-kt", name = "coil-compose", version.ref = "coilVersion"}
+
 [plugins]
 androidApplication = { id = "com.android.application", version.ref = "agp" }
 jetbrainsKotlinAndroid = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }

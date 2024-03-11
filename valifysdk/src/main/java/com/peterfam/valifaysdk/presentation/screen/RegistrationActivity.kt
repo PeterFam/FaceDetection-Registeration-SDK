@@ -10,8 +10,13 @@ import androidx.compose.ui.Modifier
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import com.google.gson.Gson
 import com.peterfam.valifaysdk.core.Screen
+import com.peterfam.valifaysdk.data.UserModel
+import com.peterfam.valifaysdk.presentation.screen.profile_pic_screen.PhotoPickerRoute
+import com.peterfam.valifaysdk.presentation.screen.registration_screen.RegistrationRoute
 import com.peterfam.valifaysdk.presentation.screen.ui.theme.ValifyRegistrationTheme
+import com.peterfam.valifaysdk.presentation.screen.user_list.screen.UserListRoute
 import dagger.hilt.android.AndroidEntryPoint
 
 
@@ -33,9 +38,14 @@ class RegistrationActivity : ComponentActivity() {
                         composable(route = Screen.RegisterScreen.route){
                             RegistrationRoute(navController = navController)
                         }
-
+                        composable(route = Screen.ProfilePicScreen.route){
+                            val user = Gson().fromJson(it.arguments?.getString("user"), UserModel::class.java)
+                            PhotoPickerRoute(userModel = user, this@RegistrationActivity)
+                        }
+                        composable(route = Screen.UsersScreen.route){
+                            UserListRoute()
+                        }
                     }
-
                 }
             }
         }
