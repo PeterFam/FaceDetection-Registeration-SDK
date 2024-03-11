@@ -40,7 +40,7 @@ class RegistrationActivity : ComponentActivity() {
                         }
                         composable(route = Screen.ProfilePicScreen.route){
                             val user = Gson().fromJson(it.arguments?.getString("user"), UserModel::class.java)
-                            PhotoPickerRoute(navController = navController, userModel = user)
+                            PhotoPickerRoute(userModel = user, this@RegistrationActivity)
                         }
                         composable(route = Screen.UsersScreen.route){
                             UserListRoute()

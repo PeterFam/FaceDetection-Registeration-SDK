@@ -55,7 +55,7 @@ class RegistrationViewModel @Inject constructor(private val userRepo: UsersRepo)
             return false
         }
         if(!Utils.isEmailValid(viewState.emailFieldState.text)){
-            setEffect { RegistrationUiEffect.ShowValidationMsg(UiText.StringResource(R.string.invalid_password)) }
+            setEffect { RegistrationUiEffect.ShowValidationMsg(UiText.StringResource(R.string.invalid_email)) }
             return false
         }
         if(!Utils.isPasswordValid(viewState.passwordFieldState.text)){

@@ -4,6 +4,7 @@ import android.Manifest
 import android.annotation.SuppressLint
 import android.content.Context
 import android.widget.Toast
+import androidx.activity.ComponentActivity
 import androidx.camera.core.CameraSelector
 import androidx.camera.core.ImageCapture
 import androidx.camera.core.ImageCaptureException
@@ -43,7 +44,6 @@ import androidx.compose.ui.unit.sp
 import androidx.compose.ui.viewinterop.AndroidView
 import androidx.core.content.ContextCompat
 import androidx.hilt.navigation.compose.hiltViewModel
-import androidx.navigation.NavController
 import com.google.accompanist.permissions.ExperimentalPermissionsApi
 import com.google.accompanist.permissions.isGranted
 import com.google.accompanist.permissions.rememberPermissionState
@@ -65,7 +65,7 @@ import java.io.File
 @SuppressLint("PermissionLaunchedDuringComposition")
 @OptIn(ExperimentalPermissionsApi::class)
 @Composable
-fun PhotoPickerRoute(navController: NavController, userModel: UserModel){
+fun PhotoPickerRoute( userModel: UserModel, activity: ComponentActivity){
     val viewModel: PhotoPicViewModel = hiltViewModel()
     viewModel.setUserData(userModel)
 
@@ -95,7 +95,7 @@ fun PhotoPickerRoute(navController: NavController, userModel: UserModel){
         StandardSuccessDialog(setShowDialog = {
             showSuccessDialog.value = it
         }){
-           // context.findActivity()?.finish()
+            activity.finish()
         }
     }
     if(showPermissionDialog.value){
