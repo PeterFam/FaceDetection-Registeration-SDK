@@ -1,18 +1,18 @@
-Valify Registration SDK
+Face Detection Registration SDK
 ============================
 
-An assessment requested by Valify to integrate registration feature in other applications
+An assessment requested by Valify to integrate registration's feature in other applications
 
 ## Topics Coverd ##
 
 * Jetpack Compose (instead of XML)
-* Navgation Component
+* Navigtion Component
 * Room DB
-* Hilt Dagger Dependency Injection (Multi Module)
+* Hilt Dagger Dependency Injection (Multi-Module)
 * Koltin Coroutines
-* Clean Archeticture
+* Clean Architecture
 * CameraX
-* Google ML used to detect face smile
+* Google ML used to detect face's smile
 
 
  Usage:
