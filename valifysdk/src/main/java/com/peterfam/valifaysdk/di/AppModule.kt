@@ -1,41 +1,35 @@
 package com.peterfam.valifaysdk.di
 
-import android.content.Context
+import android.app.Application
 import androidx.room.Room
 import com.peterfam.valifaysdk.data.UsersDao
 import com.peterfam.valifaysdk.data.UsersDatabase
 import com.peterfam.valifaysdk.domain.UserRepoImpl
 import com.peterfam.valifaysdk.domain.UsersRepo
+import com.peterfam.valifaysdk.presentation.viewmodel.RegistrationViewModel
 import com.peterfam.valifaysdk.util.Constants
-import dagger.Module
-import dagger.Provides
-import dagger.hilt.InstallIn
-import dagger.hilt.android.qualifiers.ApplicationContext
-import dagger.hilt.components.SingletonComponent
-import javax.inject.Singleton
+import org.koin.core.module.dsl.viewModelOf
+import org.koin.dsl.module
 
-@Module
-@InstallIn(SingletonComponent::class)
-object AppModule {
+val viewModelModule = module {
+    viewModelOf(::RegistrationViewModel)
+}
 
-    @Singleton
-    @Provides
-    fun provideRoomDatabase(@ApplicationContext context: Context) : UsersDatabase {
-        return Room.databaseBuilder(
-            context,
-            UsersDatabase::class.java,
-            Constants.DBName
-        ).build()
-    }
+fun provideRoomDatabase(application: Application) : UsersDatabase {
+    return Room.databaseBuilder(
+        application,
+        UsersDatabase::class.java,
+        Constants.DBName
+    ).fallbackToDestructiveMigration().build()
+}
 
-    @Singleton
-    @Provides
-    fun provideDao(database: UsersDatabase): UsersDao = database.usersDao()
+fun provideDao(database: UsersDatabase): UsersDao = database.usersDao()
 
-    @Singleton
-    @Provides
-    fun provideUserRepository(usersDao: UsersDao): UsersRepo{
-        return UserRepoImpl(usersDao)
-    }
+val databaseModule = module {
+    single { provideDao(get()) }
+    single { provideRoomDatabase(get()) }
+}
 
+val repositoryModule = module {
+    factory<UsersRepo> { UserRepoImpl(get()) }
 }

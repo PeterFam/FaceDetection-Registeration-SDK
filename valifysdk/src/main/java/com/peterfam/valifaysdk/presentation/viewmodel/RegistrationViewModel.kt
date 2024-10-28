@@ -9,19 +9,15 @@ import com.peterfam.valifaysdk.util.BaseViewModel
 import com.peterfam.valifaysdk.util.UiEffect
 import com.peterfam.valifaysdk.util.Utils
 import com.peterfam.valifysdk.R
-import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import javax.inject.Inject
 
 sealed class RegistrationUiEffect : UiEffect() {
     data object HideKeyboard : RegistrationUiEffect()
     data class ShowValidationMsg(val msg: UiText.StringResource): RegistrationUiEffect()
 }
-@HiltViewModel
-class RegistrationViewModel @Inject constructor(private val userRepo: UsersRepo): BaseViewModel<RegistrationEvent, RegistrationState>() {
-
-
+class RegistrationViewModel(private val userRepo: UsersRepo): BaseViewModel<RegistrationEvent, RegistrationState>() {
+    
     override fun initialState(): RegistrationState {
         return RegistrationState()
     }

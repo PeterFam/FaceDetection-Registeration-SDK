@@ -28,7 +28,6 @@ import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import com.peterfam.valifaysdk.core.StandardButton
 import com.peterfam.valifaysdk.core.StandardTextFiled
@@ -40,11 +39,13 @@ import com.peterfam.valifaysdk.presentation.viewmodel.RegistrationUiEffect
 import com.peterfam.valifaysdk.presentation.viewmodel.RegistrationViewModel
 import com.peterfam.valifysdk.R
 import kotlinx.coroutines.flow.collectLatest
+import org.koin.androidx.compose.koinViewModel
 
 @Composable
 fun RegistrationRoute(navController: NavController){
 
-    val viewModel: RegistrationViewModel = hiltViewModel()
+
+    val viewModel : RegistrationViewModel = koinViewModel()
     val showWarningDialog = remember { mutableStateOf(Pair("", false)) }
     val context = LocalContext.current
     LaunchedEffect(key1 = true) {

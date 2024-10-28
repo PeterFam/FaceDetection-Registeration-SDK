@@ -12,10 +12,8 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.peterfam.valifaysdk.core.Screen
 import com.peterfam.valifaysdk.presentation.screen.ui.theme.ValifyRegistrationTheme
-import dagger.hilt.android.AndroidEntryPoint
+import org.koin.compose.KoinContext
 
-
-@AndroidEntryPoint
 class RegistrationActivity : ComponentActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -24,18 +22,20 @@ class RegistrationActivity : ComponentActivity() {
         setContent {
             ValifyRegistrationTheme {
                 // A surface container using the 'background' color from the theme
-                Surface(
-                    modifier = Modifier.fillMaxSize(),
-                    color = MaterialTheme.colorScheme.background
-                ) {
-                    val navController = rememberNavController()
-                    NavHost(navController = navController, startDestination =  Screen.RegisterScreen.route){
-                        composable(route = Screen.RegisterScreen.route){
-                            RegistrationRoute(navController = navController)
+                KoinContext {
+                    Surface(
+                        modifier = Modifier.fillMaxSize(),
+                        color = MaterialTheme.colorScheme.background
+                    ) {
+                        val navController = rememberNavController()
+                        NavHost(navController = navController, startDestination =  Screen.RegisterScreen.route){
+                            composable(route = Screen.RegisterScreen.route){
+                                RegistrationRoute(navController = navController)
+                            }
+
                         }
 
                     }
-
                 }
             }
         }

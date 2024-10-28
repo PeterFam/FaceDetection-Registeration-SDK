@@ -1,8 +1,8 @@
 plugins {
     alias(libs.plugins.androidApplication)
-    alias(libs.plugins.hiltAndroid)
     alias(libs.plugins.jetbrainsKotlinAndroid)
     alias(libs.plugins.ksp)
+    alias(libs.plugins.compose.compiler)
 }
 
 android {
@@ -67,9 +67,6 @@ dependencies {
     debugImplementation(libs.androidx.ui.tooling)
     debugImplementation(libs.androidx.ui.test.manifest)
 
-    //Hilt Android
-    implementation(libs.hilt.android)
-    ksp(libs.hilt.compiler)
 
     implementation(project(":valifysdk"))
 
