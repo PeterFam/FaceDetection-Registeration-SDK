@@ -11,8 +11,18 @@
     <string name="phone_number">Phone Num.</string>
     <string name="invalid_mobile">Invalid Mobile Number</string>
     <string name="invalid_email">Invalid email address</string>
-    <string name="invalid_password">Invalid Password</string>
+    <string name="invalid_password">Invalid Password(password should be 8 length with at least capital, number, special character  </string>
 
     <string name="attention">Attention!</string>
     <string name="ok">OK</string>
+    <string name="permission_needed">Permission Needed</string>
+    <string name="allow">Allow Permission</string>
+    <string name="permission_needed_msg">This permission needed in order to continue.. please go to settings and allow it</string>
+    <string name="allow_camera_permission">Allow Camera Permission</string>
+    <string name="profile_pic">Profile Picture</string>
+    <string name="please_smile">Please smile to take a photo of you</string>
+    <string name="success">Success</string>
+    <string name="account_created_successfully">Account Created Successfully!</string>
+
+    <string name="user_list">Users List</string>
 </resources>

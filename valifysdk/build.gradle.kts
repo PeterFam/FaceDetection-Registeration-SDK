@@ -81,6 +81,24 @@ dependencies {
     implementation (libs.koin.androidx.compose)
     implementation(libs.koin.core)
 
+    //Camera & Google MLKit
+    //A library providing a seamless integration between CameraX and Google's ML Kit library.
+    implementation(libs.camera.mlkit)
+    implementation(libs.google.mlkit.face.detection)
+
+
+    //camera core libs
+    implementation(libs.camera.core)
+    implementation(libs.camera.lifecycle)
+    implementation(libs.camera.camera2)
+    implementation(libs.camera.view)
+
+    implementation(libs.google.accompanist)
+    implementation(libs.google.gson)
+
+    implementation(libs.coil)
+    implementation(libs.coil.kt)
+
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)

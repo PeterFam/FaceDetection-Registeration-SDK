@@ -10,6 +10,6 @@ val Purple40 = Color(0xFFE1D9FA)
 val PurpleGrey40 = Color(0xFF625b71)
 val Cyan = Color(0xFFBBFAED)
 
-val DarkGreen = Color(0xFF0A2C00)
+val DarkGreen = Color(0x360A2C00)
 val Green = Color(0xFF1C7701)
 
