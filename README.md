@@ -8,7 +8,7 @@ An assessment requested by Valify to integrate registration's feature in other a
 * Jetpack Compose (instead of XML)
 * Navigtion Component
 * Room DB
-* Hilt Dagger Dependency Injection (Multi-Module)
+* Koin Dependency Injection
 * Koltin Coroutines
 * Clean Architecture
 * CameraX
