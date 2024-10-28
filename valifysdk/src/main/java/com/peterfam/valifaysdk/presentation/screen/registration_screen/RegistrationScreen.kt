@@ -1,4 +1,4 @@
-package com.peterfam.valifaysdk.presentation.screen
+package com.peterfam.valifaysdk.presentation.screen.registration_screen
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
@@ -10,8 +10,8 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
+import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -20,6 +20,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
@@ -28,30 +29,44 @@ import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
+import com.google.gson.Gson
+import com.peterfam.valifaysdk.core.Screen
 import com.peterfam.valifaysdk.core.StandardButton
 import com.peterfam.valifaysdk.core.StandardTextFiled
 import com.peterfam.valifaysdk.core.StandardWarningDialog
-import com.peterfam.valifaysdk.presentation.screen.ui.PasswordTextField
+import com.peterfam.valifaysdk.presentation.screen.registration_screen.viewmodel.RegistrationEvent
+import com.peterfam.valifaysdk.presentation.screen.registration_screen.viewmodel.RegistrationUiEffect
+import com.peterfam.valifaysdk.presentation.screen.registration_screen.viewmodel.RegistrationViewModel
 import com.peterfam.valifaysdk.presentation.screen.ui.theme.Cyan
-import com.peterfam.valifaysdk.presentation.viewmodel.RegistrationEvent
-import com.peterfam.valifaysdk.presentation.viewmodel.RegistrationUiEffect
-import com.peterfam.valifaysdk.presentation.viewmodel.RegistrationViewModel
+import com.peterfam.valifaysdk.presentation.screen.ui.theme.DarkGreen
 import com.peterfam.valifysdk.R
 import kotlinx.coroutines.flow.collectLatest
+import org.koin.androidx.compose.koinViewModel
 
 @Composable
 fun RegistrationRoute(navController: NavController){
 
-    val viewModel: RegistrationViewModel = hiltViewModel()
+
+    val viewModel : RegistrationViewModel = koinViewModel()
     val showWarningDialog = remember { mutableStateOf(Pair("", false)) }
     val context = LocalContext.current
+    val keyboardController = LocalSoftwareKeyboardController.current
     LaunchedEffect(key1 = true) {
         viewModel.effectFlow.collectLatest { effect ->
             when(effect){
+                is RegistrationUiEffect.HideKeyboard -> {
+                    keyboardController?.hide()
+                }
                 is RegistrationUiEffect.ShowValidationMsg -> {
                     showWarningDialog.value = Pair(effect.msg.asString(context), true)
+                }
+                is RegistrationUiEffect.NavigateToPhotoPickScreen -> {
+                    val userData = Gson().toJson(effect.userModel)
+                    navController.navigate(Screen.ProfilePicScreen.route.replace("{user}", userData))
+                }
+                is RegistrationUiEffect.NavigateToUsersList -> {
+                    navController.navigate(Screen.UsersScreen.route)
                 }
             }
 
@@ -79,7 +94,7 @@ fun RegistrationScreen(viewModel: RegistrationViewModel){
                 .padding(top = 30.dp),
                 text = stringResource(id = R.string.registration),
                 textAlign = TextAlign.Center,
-                style = TextStyle(fontSize = 30.sp, fontWeight = FontWeight.Bold)
+                style = TextStyle(fontSize = 30.sp, fontWeight = FontWeight.Bold, color= Color.Black)
                 )
         }
         item {
@@ -128,14 +143,6 @@ fun RegistrationScreen(viewModel: RegistrationViewModel){
                     state = viewModel.viewState.passwordFieldState,
                     imeAction = ImeAction.Done,
                     label = stringResource(id = R.string.password),
-                    keyboardActions = KeyboardActions(
-                        onDone = {
-//                            keyboardController?.hide()
-//                            if (enableLoginButton) {
-//                                onEvent(RegisterEvent.Register)
-//                            }
-                        },
-                    ),
                     hint = "********",
                 )
 
@@ -146,12 +153,26 @@ fun RegistrationScreen(viewModel: RegistrationViewModel){
                     modifier = Modifier.fillMaxWidth(),
                     enabled = viewModel.viewState.enableRegisterBtn,
                     onClick = {
-                        viewModel.onEvent(RegistrationEvent.SavingData)
+                        viewModel.onEvent(RegistrationEvent.ValidateRegistrationData)
                     }
                 )
             }
 
         }
-
+        item {
+            StandardButton(
+                text = stringResource(id = R.string.user_list),
+                modifier = Modifier.fillMaxWidth().padding(horizontal = 30.dp),
+                colors = ButtonDefaults.elevatedButtonColors(
+                    containerColor = Color.Black,
+                    contentColor = Color.Black,
+                    disabledContainerColor = DarkGreen,
+                    disabledContentColor = DarkGreen,
+                ),
+                onClick = {
+                    viewModel.onEvent(RegistrationEvent.NavigateToUsersList)
+                }
+            )
+        }
     }
 }

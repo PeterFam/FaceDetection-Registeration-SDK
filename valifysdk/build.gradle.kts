@@ -1,7 +1,7 @@
 plugins {
     alias(libs.plugins.androidLibrary)
-    alias(libs.plugins.hiltAndroid)
     alias(libs.plugins.jetbrainsKotlinAndroid)
+    alias(libs.plugins.compose.compiler)
     alias(libs.plugins.ksp)
 }
 
@@ -33,7 +33,7 @@ android {
         compose = true
     }
     composeOptions {
-        kotlinCompilerExtensionVersion = "1.5.10"
+        kotlinCompilerExtensionVersion = "1.5.15"
     }
     kotlin {
         jvmToolchain(17)
@@ -74,10 +74,30 @@ dependencies {
     ksp(libs.room.compiler)
     testImplementation(libs.room.testing)
 
-    //Hilt Android
-    implementation(libs.hilt.android)
-    ksp(libs.hilt.compiler)
-    implementation(libs.hilt.compose)
+    implementation (libs.androidx.navigation.ui)
+    implementation(libs.androidx.navigation.compose)
+
+    implementation(libs.koin.android)
+    implementation (libs.koin.androidx.compose)
+    implementation(libs.koin.core)
+
+    //Camera & Google MLKit
+    //A library providing a seamless integration between CameraX and Google's ML Kit library.
+    implementation(libs.camera.mlkit)
+    implementation(libs.google.mlkit.face.detection)
+
+
+    //camera core libs
+    implementation(libs.camera.core)
+    implementation(libs.camera.lifecycle)
+    implementation(libs.camera.camera2)
+    implementation(libs.camera.view)
+
+    implementation(libs.google.accompanist)
+    implementation(libs.google.gson)
+
+    implementation(libs.coil)
+    implementation(libs.coil.kt)
 
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)

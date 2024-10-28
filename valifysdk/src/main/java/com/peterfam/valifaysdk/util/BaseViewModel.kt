@@ -19,16 +19,6 @@ import kotlinx.coroutines.flow.SharedFlow
 import kotlinx.coroutines.isActive
 import kotlinx.coroutines.launch
 
-@Composable
-fun <viewModel : LifecycleObserver> viewModel.ObserveLifecycleEvents(lifecycle: Lifecycle) {
-    DisposableEffect(lifecycle) {
-        lifecycle.addObserver(this@ObserveLifecycleEvents)
-        onDispose {
-            lifecycle.removeObserver(this@ObserveLifecycleEvents)
-        }
-    }
-}
-
 abstract class BaseViewModel<Event : UiEvent, State : UiState> : ViewModel(),
     DefaultLifecycleObserver {
 

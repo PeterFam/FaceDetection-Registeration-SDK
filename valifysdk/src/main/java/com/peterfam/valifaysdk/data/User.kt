@@ -9,6 +9,7 @@ data class User(
     val password: String,
     val mob: Int,
     val email: String,
+    val imgUrl: String,
     @PrimaryKey(autoGenerate = true)
     var id: Int? = null
 )
