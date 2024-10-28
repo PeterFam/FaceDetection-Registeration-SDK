@@ -1,20 +1,19 @@
 [versions]
 agp = "8.3.0"
-kotlin = "1.9.22"
-coreKtx = "1.12.0"
+koinAndroid = "4.0.0"
+kotlin = "2.0.21"
+coreKtx = "1.13.1"
 junit = "4.13.2"
 junitVersion = "1.1.5"
 espressoCore = "3.5.1"
-lifecycleRuntimeKtx = "2.7.0"
-activityCompose = "1.8.2"
-composeBom = "2023.08.00"
-appcompat = "1.6.1"
-material = "1.10.0"
+lifecycleRuntimeKtx = "2.8.6"
+activityCompose = "1.9.3"
+composeBom = "2024.10.00"
+appcompat = "1.7.0"
+material = "1.12.0"
+navigationCompose = "2.8.3"
 roomDB = "2.6.1"
-hiltAndroid = "2.50"
-hiltCompiler = "2.50"
-kspVersion = "1.9.22-1.0.17"
-hiltCompose = "1.2.0"
+kspVersion = "2.0.21-1.0.25"
 
 cameraMLKit = "1.4.0-alpha04"
 googleMLKitFaceDetection = "17.1.0"
@@ -25,6 +24,8 @@ coilVersion = "2.5.0"
 
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
+androidx-navigation-compose = { module = "androidx.navigation:navigation-compose", version.ref = "navigationCompose" }
+androidx-navigation-ui = { module = "androidx.navigation:navigation-ui", version.ref = "navigationCompose" }
 junit = { group = "junit", name = "junit", version.ref = "junit" }
 androidx-junit = { group = "androidx.test.ext", name = "junit", version.ref = "junitVersion" }
 androidx-espresso-core = { group = "androidx.test.espresso", name = "espresso-core", version.ref = "espressoCore" }
@@ -39,6 +40,7 @@ androidx-ui-test-manifest = { group = "androidx.compose.ui", name = "ui-test-man
 androidx-ui-test-junit4 = { group = "androidx.compose.ui", name = "ui-test-junit4" }
 androidx-material3 = { group = "androidx.compose.material3", name = "material3" }
 androidx-appcompat = { group = "androidx.appcompat", name = "appcompat", version.ref = "appcompat" }
+
 material = { group = "com.google.android.material", name = "material", version.ref = "material" }
 
 room-db = {group = "androidx.room", name = "room-runtime", version.ref = "roomDB"}
@@ -46,9 +48,11 @@ room-compiler = {group = "androidx.room", name = "room-compiler", version.ref = 
 room-ktx = {group = "androidx.room", name = "room-ktx", version.ref = "roomDB"}
 room-testing = {group = "androidx.room", name = "room-testing", version.ref = "roomDB"}
 
-hilt-android = {group = "com.google.dagger", name = "hilt-android", version.ref = "hiltAndroid"}
-hilt-compiler = {group = "com.google.dagger", name = "hilt-android-compiler", version.ref = "hiltCompiler"}
-hilt-compose = {group = "androidx.hilt", name = "hilt-navigation-compose", version.ref = "hiltCompose"}
+koin-core = { module = "io.insert-koin:koin-core", version.ref = "koinAndroid" }
+koin-android = { module = "io.insert-koin:koin-android", version.ref = "koinAndroid" }
+koin-androidx-compose = { module = "io.insert-koin:koin-androidx-compose", version.ref = "koinAndroid" }
+
+
 
 camera-mlkit = {group = "androidx.camera", name = "camera-mlkit-vision", version.ref = "cameraMLKit"}
 google-mlkit-face-detection = {group = "com.google.android.gms", name = "play-services-mlkit-face-detection", version.ref = "googleMLKitFaceDetection"}
@@ -66,6 +70,6 @@ coil-kt = {group = "io.coil-kt", name = "coil-compose", version.ref = "coilVersi
 androidApplication = { id = "com.android.application", version.ref = "agp" }
 jetbrainsKotlinAndroid = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
 androidLibrary = { id = "com.android.library", version.ref = "agp" }
-hiltAndroid = {id = "com.google.dagger.hilt.android", version.ref = "hiltCompiler"}
 ksp = {id = "com.google.devtools.ksp", version.ref = "kspVersion"}
+compose-compiler = { id = "org.jetbrains.kotlin.plugin.compose", version.ref = "kotlin" }
 

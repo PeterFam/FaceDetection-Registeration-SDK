@@ -28,18 +28,18 @@ import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.hilt.navigation.compose.hiltViewModel
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
 import com.peterfam.valifaysdk.data.User
 import com.peterfam.valifaysdk.presentation.screen.user_list.view_model.UserListEvent
 import com.peterfam.valifaysdk.presentation.screen.user_list.view_model.UserListViewModel
 import com.peterfam.valifysdk.R
+import org.koin.androidx.compose.koinViewModel
 
 @Composable
 fun UserListRoute(){
 
-    val viewModel: UserListViewModel = hiltViewModel()
+    val viewModel: UserListViewModel = koinViewModel()
     LaunchedEffect(key1 = true) {
         viewModel.getUsersData()
     }

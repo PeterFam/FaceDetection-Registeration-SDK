@@ -17,10 +17,8 @@ import com.peterfam.valifaysdk.presentation.screen.profile_pic_screen.PhotoPicke
 import com.peterfam.valifaysdk.presentation.screen.registration_screen.RegistrationRoute
 import com.peterfam.valifaysdk.presentation.screen.ui.theme.ValifyRegistrationTheme
 import com.peterfam.valifaysdk.presentation.screen.user_list.screen.UserListRoute
-import dagger.hilt.android.AndroidEntryPoint
+import org.koin.compose.KoinContext
 
-
-@AndroidEntryPoint
 class RegistrationActivity : ComponentActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {

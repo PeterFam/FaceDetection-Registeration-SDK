@@ -4,13 +4,18 @@
 
     <uses-permission android:name="android.permission.CAMERA" />
 
-    <application>
+    <application
+        android:name="com.peterfam.valifaysdk.ValifySDKApp">
         <activity
             android:name="com.peterfam.valifaysdk.presentation.screen.RegistrationActivity"
             android:exported="true"
             android:label="@string/title_activity_main"
             android:theme="@style/Theme.ValifyRegistration" >
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
 
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
         </activity>
     </application>
 

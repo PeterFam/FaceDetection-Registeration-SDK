@@ -34,7 +34,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.platform.LocalLifecycleOwner
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
@@ -43,7 +42,6 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.viewinterop.AndroidView
 import androidx.core.content.ContextCompat
-import androidx.hilt.navigation.compose.hiltViewModel
 import com.google.accompanist.permissions.ExperimentalPermissionsApi
 import com.google.accompanist.permissions.isGranted
 import com.google.accompanist.permissions.rememberPermissionState
@@ -60,13 +58,14 @@ import com.peterfam.valifaysdk.presentation.screen.profile_pic_screen.viewmodel.
 import com.peterfam.valifaysdk.presentation.screen.profile_pic_screen.viewmodel.PhotoPicViewModel
 import com.peterfam.valifysdk.R
 import kotlinx.coroutines.flow.collectLatest
+import org.koin.androidx.compose.koinViewModel
 import java.io.File
 
 @SuppressLint("PermissionLaunchedDuringComposition")
 @OptIn(ExperimentalPermissionsApi::class)
 @Composable
 fun PhotoPickerRoute( userModel: UserModel, activity: ComponentActivity){
-    val viewModel: PhotoPicViewModel = hiltViewModel()
+    val viewModel: PhotoPicViewModel = koinViewModel()
     viewModel.setUserData(userModel)
 
     val showSuccessDialog = remember {
@@ -123,7 +122,7 @@ fun PhotoPickerRoute( userModel: UserModel, activity: ComponentActivity){
 @Composable
 fun ProfilePickScreen(context: Context, viewModel: PhotoPicViewModel) {
     val cameraController = remember { LifecycleCameraController(context) }
-    val lifecycleOwner = LocalLifecycleOwner.current
+    val lifecycleOwner = androidx.lifecycle.compose.LocalLifecycleOwner.current
     val previewView: PreviewView = remember { PreviewView(context) }
     cameraController.bindToLifecycle(lifecycleOwner)
     cameraController.cameraSelector = CameraSelector.DEFAULT_FRONT_CAMERA

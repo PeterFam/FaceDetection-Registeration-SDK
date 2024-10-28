@@ -6,16 +6,13 @@ import com.peterfam.valifaysdk.data.UserModel
 import com.peterfam.valifaysdk.domain.UsersRepo
 import com.peterfam.valifaysdk.util.BaseViewModel
 import com.peterfam.valifaysdk.util.UiEffect
-import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
-import javax.inject.Inject
 
 sealed class PhotoPicUiEffect: UiEffect(){
     data object ShowSuccessDialog: PhotoPicUiEffect()
 
 }
-@HiltViewModel
-class PhotoPicViewModel @Inject constructor(private val userRepo: UsersRepo):
+class PhotoPicViewModel(private val userRepo: UsersRepo):
     BaseViewModel<PhotoPicEvent, PhotoPicState>() {
     override fun initialState(): PhotoPicState {
         return PhotoPicState()

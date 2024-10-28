@@ -4,13 +4,10 @@ import androidx.lifecycle.viewModelScope
 import com.peterfam.valifaysdk.data.User
 import com.peterfam.valifaysdk.domain.UsersRepo
 import com.peterfam.valifaysdk.util.BaseViewModel
-import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
-import javax.inject.Inject
 
 
-@HiltViewModel
-class UserListViewModel @Inject constructor(private val usersRepo: UsersRepo): BaseViewModel<UserListEvent, UserListUiState>() {
+class UserListViewModel(private val usersRepo: UsersRepo): BaseViewModel<UserListEvent, UserListUiState>() {
     override fun initialState(): UserListUiState {
         return UserListUiState()
     }
